@@ -231,7 +231,20 @@
              <div class="bg-white p-6 rounded-lg shadow">
                 <h2 class="text-2xl font-semibold text-[#34658F] mb-4 text-center">فروشگاه‌های مطرح سوغات</h2>
                 <p class="text-center text-gray-600 mb-6 max-w-3xl mx-auto">در این بخش، فهرستی از فروشگاه‌های معتبر فیزیکی و آنلاین که به صورت تخصصی در زمینه فروش سوغات و صنایع دستی فعالیت می‌کنند، ارائه شده است. می‌توانید برای یافتن فروشگاه مورد نظر، در کادر زیر جستجو کنید.</p>
-                <input type="text" id="store-search" placeholder="جستجوی فروشگاه بر اساس نام یا کشور..." class="w-full max-w-lg mx-auto block p-2 border border-gray-300 rounded-md shadow-sm mb-6 focus:ring-[#4F80B9] focus:border-[#4F80B9]">
+                <div class="mb-6 grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label for="store-search" class="block text-sm font-medium text-gray-700 mb-1">جستجوی فروشگاه</label>
+                        <input type="text" id="store-search" placeholder="جستجوی فروشگاه بر اساس نام یا کشور..." class="w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-[#4F80B9] focus:border-[#4F80B9]">
+                    </div>
+                    <div>
+                        <label for="store-type-filter" class="block text-sm font-medium text-gray-700 mb-1">نوع فروشگاه</label>
+                        <select id="store-type-filter" class="w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-[#4F80B9] focus:border-[#4F80B9]">
+                            <option value="all">همه انواع</option>
+                            <option value="chain">فروشگاه‌های بزرگ زنجیره‌ای</option>
+                            <option value="retail">فروشگاه‌های خرده‌فروشی</option>
+                        </select>
+                    </div>
+                </div>
                 <div id="store-list" class="grid grid-cols-1 md:grid-cols-3 gap-4">
                 </div>
             </div>
@@ -289,7 +302,7 @@
     </div>
 
     <div id="store-detail-modal" class="modal fixed inset-0 bg-black bg-opacity-60 z-50 flex items-center justify-center p-4 hidden opacity-0">
-        <div id="store-modal-content" class="modal-content bg-white rounded-lg shadow-2xl w-full max-w-xl max-h-[90vh] overflow-y-auto transform scale-95">
+        <div id="store-modal-content" class="store-modal-content bg-white rounded-lg shadow-2xl w-full max-w-xl max-h-[90vh] overflow-y-auto transform scale-95">
             <div class="sticky top-0 bg-white p-4 border-b flex justify-between items-center">
                 <h3 id="store-modal-title" class="text-2xl font-bold text-[#34658F]"></h3>
                 <button id="close-store-modal" class="text-gray-500 hover:text-red-600 text-3xl">&times;</button>
@@ -311,7 +324,7 @@
     </div>
 
     <div id="tourist-detail-modal" class="modal fixed inset-0 bg-black bg-opacity-60 z-50 flex items-center justify-center p-4 hidden opacity-0">
-        <div id="tourist-modal-content" class="modal-content bg-white rounded-lg shadow-2xl w-full max-w-3xl max-h-[90vh] overflow-y-auto transform scale-95">
+        <div id="tourist-modal-content" class="tourist-modal-content bg-white rounded-lg shadow-2xl w-full max-w-3xl max-h-[90vh] overflow-y-auto transform scale-95">
             <div class="sticky top-0 bg-white p-4 border-b flex justify-between items-center">
                 <h3 id="tourist-modal-title" class="text-2xl font-bold text-[#34658F]"></h3>
                 <button id="close-tourist-modal" class="text-gray-500 hover:text-red-600 text-3xl">&times;</button>
@@ -343,6 +356,9 @@
                 name: "عروسک ماتروشکا",
                 englishName: "Matryoshka Doll",
                 country: "روسیه",
+                secondCountry: "اوکراین", // New field
+                minPriceUSD: 20, // New field
+                maxPriceUSD: 50, // New field
                 origin: "سرگیف پوساد",
                 story: "این عروسک‌های تودرتو که نماد مادری و باروری هستند، در اواخر قرن ۱۹ ظهور کردند. هر مجموعه داستانی از یک خانواده یا یک افسانه محلی را روایت می‌کند و به نمادی از روح روسی تبدیل شده است.",
                 description: "مجموعه‌ای از عروسک‌های چوبی با اندازه‌های کاهشی که یکی درون دیگری قرار می‌گیرد. این سوغاتی به دلیل هنر نقاشی دستی و مفهوم فرهنگی‌اش بسیار محبوب است.",
@@ -361,13 +377,18 @@
                     "images/matryoshka-3.jpg"
                 ],
                 annualProductionUnits: 150000,
-                annualSalesRevenueUSD: 5250000
+                annualSalesRevenueUSD: 5250000,
+                annualProductionUnitsSecondCountry: 30000, // New field
+                annualSalesRevenueUSDSecondCountry: 1050000 // New field
             },
             {
                 id: 2,
                 name: "فرش ایرانی",
                 englishName: "Persian Carpet",
                 country: "ایران",
+                secondCountry: "ترکیه", // New field
+                minPriceUSD: 300, // New field
+                maxPriceUSD: 600, // New field
                 origin: "کاشان، اصفهان، تبریز",
                 story: "هنر قالی‌بافی در ایران قدمتی بیش از ۲۵۰۰ سال دارد و با فرهنگ و هنر این سرزمین گره خورده است. هر طرح و نقش، بازتابی از طبیعت، شعر و اساطیر ایرانی است.",
                 description: "فرش‌های دستباف ایرانی به دلیل کیفیت، طرح‌های پیچیده و رنگ‌های طبیعی شهرت جهانی دارند. این فرش‌ها نه تنها یک کف‌پوش، بلکه یک سرمایه‌گذاری هنری محسوب می‌شوند.",
@@ -391,13 +412,18 @@
                     "images/carpet-3.PNG"
                 ],
                 annualProductionUnits: 5000,
-                annualSalesRevenueUSD: 2250000
+                annualSalesRevenueUSD: 2250000,
+                annualProductionUnitsSecondCountry: 1000, // New field
+                annualSalesRevenueUSDSecondCountry: 450000 // New field
             },
             {
                 id: 3,
                 name: "ماسک ونیزی",
                 englishName: "Venetian Mask",
                 country: "ایتالیا",
+                secondCountry: "فرانسه", // New field
+                minPriceUSD: 40, // New field
+                maxPriceUSD: 80, // New field
                 origin: "ونیز",
                 story: "ماسک‌ها از قرن‌ها پیش جزء جدایی‌ناپذیر کارناوال ونیز بوده‌اند و به شهروندان اجازه می‌دادند تا بدون توجه به طبقه اجتماعی خود، در جشن‌ها شرکت کنند. هر ماسک شخصیت و تاریخچه‌ای منحصر به فرد دارد.",
                 description: "ماسک‌های دست‌ساز با تزئینات پر، طلا و نقاشی‌های پیچیده. این ماسک‌ها نمادی از تاریخ غنی و فضای اسرارآمیز ونیز هستند.",
@@ -416,13 +442,18 @@
                     "images/Venice-3.jpg"
                 ],
                 annualProductionUnits: 80000,
-                annualSalesRevenueUSD: 4800000
+                annualSalesRevenueUSD: 4800000,
+                annualProductionUnitsSecondCountry: 10000, // New field
+                annualSalesRevenueUSDSecondCountry: 600000 // New field
             },
             {
                 id: 4,
                 name: "کیمونو",
                 englishName: "Kimono",
                 country: "ژاپن",
+                secondCountry: "چین", // New field
+                minPriceUSD: 100, // New field
+                maxPriceUSD: 200, // New field
                 origin: "کیوتو",
                 story: "کیمونو لباس سنتی ژاپن است که تاریخ آن به دوره هی‌آن بازمی‌گردد. طراحی، پارچه و نحوه پوشیدن آن نشان‌دهنده موقعیت اجتماعی، سن و مناسبت است.",
                 description: "یک لباس سنتی T شکل که با پارچه‌های ابریشمی زیبا و طرح‌های الهام گرفته از طبیعت ساخته می‌شود. کیمونوهای کوتاه‌تر (Yukata) به عنوان سوغاتی محبوبیت زیادی دارند.",
@@ -446,13 +477,18 @@
                     "images/Kimono-1.jpg"
                 ],
                 annualProductionUnits: 20000,
-                annualSalesRevenueUSD: 3000000
+                annualSalesRevenueUSD: 3000000,
+                annualProductionUnitsSecondCountry: 5000, // New field
+                annualSalesRevenueUSDSecondCountry: 750000 // New field
             },
              {
                 id: 5,
                 name: "مجسمه ابوالهول",
                 englishName: "Sphinx Figurine",
                 country: "مصر",
+                secondCountry: "یونان", // New field
+                minPriceUSD: 10, // New field
+                maxPriceUSD: 20, // New field
                 origin: "جیزه، قاهره",
                 story: "ابوالهول بزرگ جیزه، موجودی افسانه‌ای با بدن شیر و سر انسان، یکی از نمادین‌ترین بناهای تاریخی جهان است. این مجسمه‌های کوچک یادآور عظمت و رمز و راز مصر باستان هستند.",
                 description: "ماکت‌های کوچک از ابوالهول که از مواد مختلفی مانند سنگ، فلز یا رزین ساخته می‌شوند و به عنوان یکی از اصلی‌ترین نمادهای مصر خریداری می‌شوند.",
@@ -471,13 +507,18 @@
                     "images/Sphinx-3.jpg"
                 ],
                 annualProductionUnits: 200000,
-                annualSalesRevenueUSD: 3000000
+                annualSalesRevenueUSD: 3000000,
+                annualProductionUnitsSecondCountry: 15000, // New field
+                annualSalesRevenueUSDSecondCountry: 225000 // New field
             },
             {
                 id: 6,
                 name: "کلاه کابوی",
                 englishName: "Cowboy Hat",
                 country: "آمریکا",
+                secondCountry: "مکزیک", // New field
+                minPriceUSD: 60, // New field
+                maxPriceUSD: 100, // New field
                 origin: "تگزاس",
                 story: "این کلاه که در قرن ۱۹ برای محافظت گاوچرانان از آفتاب و باران طراحی شد، به نمادی از غرب وحشی، استقلال و روح ماجراجوی آمریکایی تبدیل شده است.",
                 description: "کلاهی با لبه پهن که معمولاً از نمد یا چرم ساخته می‌شود. این کلاه فراتر از یک پوشش سر، بخشی از هویت فرهنگی مناطق غربی و جنوبی آمریکاست.",
@@ -496,13 +537,18 @@
                     "images/Cowboy-1.PNG"
                 ],
                 annualProductionUnits: 75000,
-                annualSalesRevenueUSD: 6000000
+                annualSalesRevenueUSD: 6000000,
+                annualProductionUnitsSecondCountry: 20000, // New field
+                annualSalesRevenueUSDSecondCountry: 1600000 // New field
             },
             {
                 id: 7,
                 name: "بومرنگ",
                 englishName: "Boomerang",
                 country: "استرالیا",
+                secondCountry: "نیوزلند", // New field
+                minPriceUSD: 15, // New field
+                maxPriceUSD: 35, // New field
                 origin: "سرزمین آرنهم",
                 story: "بومرنگ ابزار شکار سنتی بومیان استرالیا است. مدل‌های بازگردنده آن برای سرگرمی و ورزش استفاده می‌شدند و طراحی آن نیازمند دانش عمیق آیرودینامیک است.",
                 description: "یک وسیله چوبی پرتابی که به دلیل توانایی بازگشت به پرتاب‌کننده مشهور است. بومرنگ‌های تزئینی با هنر بومیان استرالیا نقاشی می‌شوند.",
@@ -521,13 +567,18 @@
                     "images/boomrang-3.jpg"
                 ],
                 annualProductionUnits: 120000,
-                annualSalesRevenueUSD: 3000000
+                annualSalesRevenueUSD: 3000000,
+                annualProductionUnitsSecondCountry: 10000, // New field
+                annualSalesRevenueUSDSecondCountry: 250000 // New field
             },
              {
                 id: 8,
                 name: "کفش چوبی هلندی",
                 englishName: "Dutch Clogs (Klompen)",
                 country: "هلند",
+                secondCountry: "بلژیک", // New field
+                minPriceUSD: 20, // New field
+                maxPriceUSD: 40, // New field
                 origin: "Zaanse Schans",
                 story: "این کفش‌های چوبی در ابتدا توسط کشاورزان و کارگران برای محافظت از پا در زمین‌های گلی استفاده می‌شد. امروزه آنها نمادی از فرهنگ روستایی و سخت‌کوشی هلندی‌ها هستند.",
                 description: "کفش‌های ساخته شده از یک تکه چوب که به صورت تزئینی رنگ‌آمیزی می‌شوند. اگرچه هنوز در برخی مناطق روستایی پوشیده می‌شوند، اما بیشتر به عنوان سوغاتی محبوب هستند.",
@@ -546,13 +597,18 @@
                     "images/Klompen-3.jpg"
                 ],
                 annualProductionUnits: 90000,
-                annualSalesRevenueUSD: 2700000
+                annualSalesRevenueUSD: 2700000,
+                annualProductionUnitsSecondCountry: 8000, // New field
+                annualSalesRevenueUSDSecondCountry: 240000 // New field
             },
             {
                 id: 9,
                 name: "فانوس مراکشی",
                 englishName: "Moroccan Lantern",
                 country: "مراکش",
+                secondCountry: "تونس", // New field
+                minPriceUSD: 30, // New field
+                maxPriceUSD: 60, // New field
                 origin: "فاس، مراکش",
                 story: "فانوس‌های مراکشی ریشه‌های عمیقی در معماری اسلامی و فرهنگ عربی دارند. آنها نه تنها منبع نور، بلکه نمادی از مهمان‌نوازی و زیبایی‌های شرق هستند.",
                 description: "فانوس‌های دست‌ساز از فلز و شیشه‌های رنگی که نور را به زیبایی منعکس می‌کنند. بسیار محبوب برای تزئین منزل و ایجاد فضایی گرم و شرقی.",
@@ -571,13 +627,18 @@
                     "images/Lantern-3.PNG"
                 ],
                 annualProductionUnits: 60000,
-                annualSalesRevenueUSD: 2700000
+                annualSalesRevenueUSD: 2700000,
+                annualProductionUnitsSecondCountry: 5000, // New field
+                annualSalesRevenueUSDSecondCountry: 225000 // New field
             },
             {
                 id: 10,
                 name: "سفال یونانی",
                 englishName: "Greek Pottery",
                 country: "یونان",
+                secondCountry: "قبرس", // New field
+                minPriceUSD: 40, // New field
+                maxPriceUSD: 70, // New field
                 origin: "آتن، کرت",
                 story: "سفالگری در یونان باستان هنری برجسته بود و داستان‌های اساطیری و زندگی روزمره را به تصویر می‌کشید. امروزه این سفال‌ها نمادی از تاریخ و هنر کهن یونان هستند.",
                 description: "ظروف سفالی دست‌ساز با طرح‌های الهام گرفته از هنر یونان باستان, شامل گلدان‌ها، کاسه‌ها و مجسمه‌های کوچک.",
@@ -596,7 +657,9 @@
                     "images/Greek-3.jpg"
                 ],
                 annualProductionUnits: 70000,
-                annualSalesRevenueUSD: 3850000
+                annualSalesRevenueUSD: 3850000,
+                annualProductionUnitsSecondCountry: 6000, // New field
+                annualSalesRevenueUSDSecondCountry: 330000 // New field
             },
             // You can add more product objects here by copying and pasting the structure above.
         ].map(p => ({
@@ -623,6 +686,8 @@
                 width: 10,  
                 productsSold: ["صنایع دستی چوبی", "لباس‌های محلی", "ماکت‌های جاذبه‌ها"],
                 location: "آنلاین (دفتر مرکزی در شهر اصلی)",
+                type: "chain", // New field
+                specialNotes: "یکی از بزرگترین فروشگاه‌های آنلاین سوغات با ارسال بین‌المللی.", // New field
                 // Updated to imageUrls array
                 imageUrls: [
                     "https://placehold.co/400x300/A0D2DB/FFFFFF?text=Store1+A",
@@ -640,6 +705,8 @@
                 width: 10,
                 productsSold: ["اشیای دکوری", "تی‌شرت‌های محلی"],
                 location: "خیابان اصلی، مرکز شهر",
+                type: "chain", // New field
+                specialNotes: "دارای شعب متعدد در شهرهای بزرگ بریتانیا.", // New field
                 // Updated to imageUrls array
                 imageUrls: [
                     "https://placehold.co/400x300/A0D2DB/FFFFFF?text=Store2+A",
@@ -657,6 +724,9 @@
                 width: 10,
                 productsSold: ["عروسک‌های سنتی", "محصولات سنگی"],
                 location: "بازار بزرگ، منطقه تاریخی",
+                type: "retail", // New field
+                storeAge: "30 سال", // New field for retail
+                specialNotes: "تخصصی در فروش صنایع دستی اصیل روسی.", // New field
                 // Updated to imageUrls array
                 imageUrls: [
                     "https://placehold.co/400x300/A0D2DB/FFFFFF?text=Store3+A",
@@ -674,6 +744,8 @@
                 width: 10,
                 productsSold: ["منسوجات دست‌باف", "عروسک‌های سنتی"],
                 location: "نزدیک جاذبه توریستی",
+                type: "chain", // New field
+                specialNotes: "مجموعه‌ای گسترده از سوغات فرهنگی ژاپن در مکان‌های توریستی.", // New field
                 // Updated to imageUrls array
                 imageUrls: [
                     "https://placehold.co/400x300/A0D2DB/FFFFFF?text=Store4+A",
@@ -691,6 +763,8 @@
                 width: 10,
                 productsSold: ["اشیای دکوری", "محصولات سنگی"],
                 location: "مرکز خرید مدرن",
+                type: "chain", // New field
+                specialNotes: "فروشگاه‌های بزرگ در فرودگاه‌ها و مراکز خرید اصلی.", // New field
                 // Updated to imageUrls array
                 imageUrls: [
                     "https://placehold.co/400x300/A0D2DB/FFFFFF?text=Store5+A",
@@ -708,6 +782,9 @@
                 width: 10,
                 productsSold: ["فرش و گلیم", "سرامیک‌های دست‌ساز"],
                 location: "دهکده صنایع دستی",
+                type: "retail", // New field
+                storeAge: "50 سال", // New field for retail
+                specialNotes: "یکی از قدیمی‌ترین و معتبرترین فروشگاه‌های فرش دستباف.", // New field
                 // Updated to imageUrls array
                 imageUrls: [
                     "https://placehold.co/400x300/A0D2DB/FFFFFF?text=Store6+A",
@@ -725,6 +802,8 @@
                 width: 10,
                 productsSold: ["اشیای دکوری", "سرامیک‌های دست‌ساز"],
                 location: "خیابان خرید لوکس",
+                type: "chain", // New field
+                specialNotes: "متخصص در سوغات لوکس و هنری ایتالیایی.", // New field
                 // Updated to imageUrls array
                 imageUrls: [
                     "https://placehold.co/400x300/A0D2DB/FFFFFF?text=Store7+A",
@@ -742,6 +821,9 @@
                 width: 10,
                 productsSold: ["کلاه و پوشاک", "ابزار سنتی"],
                 location: "بلوار ساحلی",
+                type: "retail", // New field
+                storeAge: "25 سال", // New field for retail
+                specialNotes: "تمرکز بر صنایع دستی بومی آمریکا.", // New field
                 // Updated to imageUrls array
                 imageUrls: [
                     "https://placehold.co/400x300/A0D2DB/FFFFFF?text=Store8+A",
@@ -759,6 +841,9 @@
                 width: 10,
                 productsSold: ["ابزار سنتی", "صنایع دستی چوبی"],
                 location: "منطقه هنری",
+                type: "retail", // New field
+                storeAge: "15 سال", // New field for retail
+                specialNotes: "مجموعه‌ای از بومرنگ‌ها و هنرهای بومی استرالیا.", // New field
                 // Updated to imageUrls array
                 imageUrls: [
                     "https://placehold.co/400x300/A0D2DB/FFFFFF?text=Store9+A",
@@ -776,13 +861,110 @@
                 width: 10,
                 productsSold: ["محصولات چرمی", "سفالینه‌های رنگی"],
                 location: "بازار بزرگ، منطقه تاریخی",
+                type: "chain", // New field
+                specialNotes: "فروشگاه‌های زنجیره‌ای با تمرکز بر سوغات آفریقای شمالی.", // New field
                 // Updated to imageUrls array
                 imageUrls: [
                     "https://placehold.co/400x300/A0D2DB/FFFFFF?text=Store10+A",
                     "https://placehold.co/400x300/A0D2DB/FFFFFF?text=Store10+B"
                 ]
             },
-            // You can add more store objects here by copying and pasting the structure above.
+            // Additional retail stores
+            {
+                id: 11,
+                name: "The Little Souvenir Shop",
+                country: "فرانسه",
+                website: "#",
+                salesVolume: "100000.00", // Placeholder, as it's retail
+                areaSqM: "50",
+                length: 5,
+                width: 10,
+                productsSold: ["ماکت برج ایفل", "جاکلیدی", "کارت پستال"],
+                location: "کوچه پس‌کوچه‌های مون‌مارتر، پاریس",
+                type: "retail",
+                storeAge: "10 سال",
+                specialNotes: "فروشگاهی کوچک و دنج با تمرکز بر سوغات دست‌ساز محلی.",
+                imageUrls: [
+                    "https://placehold.co/400x300/ADD8E6/000000?text=Retail+Shop+1+A",
+                    "https://placehold.co/400x300/ADD8E6/000000?text=Retail+Shop+1+B"
+                ]
+            },
+            {
+                id: 12,
+                name: "Old Town Crafts",
+                country: "آلمان",
+                website: "#",
+                salesVolume: "120000.00", // Placeholder, as it's retail
+                areaSqM: "70",
+                length: 7,
+                width: 10,
+                productsSold: ["ماگ آبجو", "چوب‌تراشی", "عروسک‌های سنتی"],
+                location: "مرکز شهر قدیمی، مونیخ",
+                type: "retail",
+                storeAge: "20 سال",
+                specialNotes: "متخصص در صنایع دستی چوبی و سوغات سنتی باواریا.",
+                imageUrls: [
+                    "https://placehold.co/400x300/ADD8E6/000000?text=Retail+Shop+2+A",
+                    "https://placehold.co/400x300/ADD8E6/000000?text=Retail+Shop+2+B"
+                ]
+            },
+            {
+                id: 13,
+                name: "Mediterranean Souvenirs",
+                country: "یونان",
+                website: "#",
+                salesVolume: "90000.00", // Placeholder, as it's retail
+                areaSqM: "60",
+                length: 6,
+                width: 10,
+                productsSold: ["سفال یونانی", "مجسمه‌های کوچک", "روغن زیتون"],
+                location: "نزدیک آکروپولیس، آتن",
+                type: "retail",
+                storeAge: "12 سال",
+                specialNotes: "ارائه دهنده سوغات اصیل یونانی با تمرکز بر سفالگری.",
+                imageUrls: [
+                    "https://placehold.co/400x300/ADD8E6/000000?text=Retail+Shop+3+A",
+                    "https://placehold.co/400x300/ADD8E6/000000?text=Retail+Shop+3+B"
+                ]
+            },
+            {
+                id: 14,
+                name: "Silk Road Treasures",
+                country: "ترکیه",
+                website: "#",
+                salesVolume: "180000.00", // Placeholder, as it's retail
+                areaSqM: "90",
+                length: 9,
+                width: 10,
+                productsSold: ["ظروف مسی", "قالیچه‌های کوچک", "لامپ‌های موزاییک"],
+                location: "بازار بزرگ، استانبول",
+                type: "retail",
+                storeAge: "40 سال",
+                specialNotes: "فروشگاه خانوادگی با مجموعه‌ای بی‌نظیر از صنایع دستی ترکی.",
+                imageUrls: [
+                    "https://placehold.co/400x300/ADD8E6/000000?text=Retail+Shop+4+A",
+                    "https://placehold.co/400x300/ADD8E6/000000?text=Retail+Shop+4+B"
+                ]
+            },
+            {
+                id: 15,
+                name: "Desert Gems",
+                country: "مصر",
+                website: "#",
+                salesVolume: "70000.00", // Placeholder, as it's retail
+                areaSqM: "45",
+                length: 4.5,
+                width: 10,
+                productsSold: ["پاپیروس", "مجسمه‌های فرعون", "جواهرات مصری"],
+                location: "نزدیک اهرام جیزه، قاهره",
+                type: "retail",
+                storeAge: "18 سال",
+                specialNotes: "سوغات باستانی و مدرن مصر را در فضایی دلنشین ارائه می‌دهد.",
+                imageUrls: [
+                    "https://placehold.co/400x300/ADD8E6/000000?text=Retail+Shop+5+A",
+                    "https://placehold.co/400x300/ADD8E6/000000?text=Retail+Shop+5+B"
+                ]
+            }
         ];
 
 
@@ -900,13 +1082,6 @@
             },
             // You can add more country objects here by copying and pasting the structure above.
         ];
-
-        // Ensure consolidatedCountriesInfo uses only the baseCountriesInfo
-        const consolidatedCountriesInfo = baseCountriesInfo.map(c => ({
-            ...c,
-            // Ensure popularProducts are actual product names from the (now limited) products array
-            popularProducts: c.popularProducts.filter(pName => products.some(p => p.name === pName))
-        }));
 
         // --- Tourist Analysis Data ---
         const touristAnalysisData = [
@@ -1076,6 +1251,7 @@
             const countryGrid = document.getElementById('country-grid');
             const storeList = document.getElementById('store-list');
             const storeSearch = document.getElementById('store-search');
+            const storeTypeFilter = document.getElementById('store-type-filter'); // New filter for store type
             const storeDetailModal = document.getElementById('store-detail-modal');
             const storeModalContent = document.getElementById('store-modal-content');
             const closeStoreModalBtn = document.getElementById('close-store-modal');
@@ -1087,6 +1263,13 @@
             const touristModalContent = document.getElementById('tourist-modal-content'); 
             const closeTouristModalBtn = document.getElementById('close-tourist-modal'); 
 
+            // Ensure consolidatedCountriesInfo uses only the baseCountriesInfo
+            // Moved inside DOMContentLoaded to avoid re-declaration error
+            const consolidatedCountriesInfo = baseCountriesInfo.map(c => ({
+                ...c,
+                // Ensure popularProducts are actual product names from the (now limited) products array
+                popularProducts: c.popularProducts.filter(pName => products.some(p => p.name === pName))
+            }));
 
             const showRankingBtn = document.getElementById('show-ranking-btn');
             const showAnalysisBtn = document.getElementById('show-analysis-btn'); 
@@ -1099,6 +1282,10 @@
 
             products.forEach(p => {
                 if (!allCountries.includes(p.country)) allCountries.push(p.country);
+                // Add second country to filter options if it exists and is not already there
+                if (p.secondCountry && !allCountries.includes(p.secondCountry)) {
+                    allCountries.push(p.secondCountry);
+                }
                 p.category.forEach(cat => {
                     if (!allCategories.includes(cat)) allCategories.push(cat);
                 });
@@ -1163,7 +1350,7 @@
                 const audience = audienceFilter.value;
 
                 const filtered = products.filter(p => {
-                    const countryMatch = (country === 'همه کشورها' || p.country === country);
+                    const countryMatch = (country === 'همه کشورها' || p.country === country || p.secondCountry === country); // Check second country too
                     const categoryMatch = (category === 'همه دسته‌ها' || p.category.includes(category));
                     const priceMatch = (p.avgPriceUSD <= price);
                     const audienceMatch = (audience === 'همه' || p.audience.includes(audience));
@@ -1225,9 +1412,10 @@
                             <div class="bg-gray-50 p-4 rounded-lg mt-4">
                                 <h4 class="font-bold text-lg mb-3 text-[#4F80B9]">جزئیات</h4>
                                 <ul class="space-y-3 text-gray-800">
-                                    <li class="flex justify-between"><strong>کشور:</strong> <span>${product.country}</span></li>
+                                    <li class="flex justify-between"><strong>کشور تولید کننده:</strong> <span>${product.country}</span></li>
+                                    ${product.secondCountry ? `<li class="flex justify-between"><strong>کشور تولید کننده دوم:</strong> <span>${product.secondCountry}</span></li>` : ''}
                                     <li class="flex justify-between"><strong>منطقه اصالت:</strong> <span>${product.origin}</span></li>
-                                    <li class="flex justify-between"><strong>کشور دوم تولید کننده:</strong> <span>${product.country}</span></li>
+                                    <li class="flex justify-between"><strong>بازه قیمتی:</strong> <span>${product.minPriceUSD}$-${product.maxPriceUSD}$</span></li>
                                     <li class="flex justify-between"><strong>قیمت متوسط:</strong> <span>${product.avgPriceUSD}$ (${product.localPrice})</span></li>
                                     <li class="flex justify-between"><strong>دسته‌بندی:</strong> <span>${product.category.join(', ')}</span></li>
                                     <li class="flex justify-between"><strong>مخاطب:</strong> <span>${product.audience.join(', ')}</span></li>
@@ -1235,6 +1423,8 @@
                                     <li class="flex justify-between"><strong>کاربرد:</strong> <span>${product.usage}</span></li>
                                     <li class="flex justify-between"><strong>میزان تولید سالانه:</strong> <span>${product.annualProductionUnits.toLocaleString()} واحد</span></li>
                                     <li class="flex justify-between"><strong>درآمد فروش سالانه:</strong> <span>${product.annualSalesRevenueUSD.toLocaleString()}$</span></li>
+                                    ${product.annualProductionUnitsSecondCountry ? `<li class="flex justify-between"><strong>میزان تولید سالانه کشور دوم:</strong> <span>${product.annualProductionUnitsSecondCountry.toLocaleString()} واحد</span></li>` : ''}
+                                    ${product.annualSalesRevenueUSDSecondCountry ? `<li class="flex justify-between"><strong>میزان فروش سالانه کشور دوم:</strong> <span>${product.annualSalesRevenueUSDSecondCountry.toLocaleString()}$</span></li>` : ''}
                                 </ul>
                             </div>
                         </div>
@@ -1290,6 +1480,8 @@
                             } else if (targetId === 'tourist-analysis') { // New tab logic
                                 renderGlobalTouristStats();
                                 renderTouristAnalysisCards(touristAnalysisData);
+                            } else if (targetId === 'stores') { // Store tab logic
+                                filterAndRenderStores(); // Re-render stores with current filters
                             }
                         } else {
                             section.classList.add('hidden');
@@ -1436,16 +1628,24 @@
                 });
             }
 
-            storeSearch.addEventListener('input', (e) => {
-                const searchTerm = e.target.value.toLowerCase();
-                const filtered = storesData.filter(store => 
-                    store.name.toLowerCase().includes(searchTerm) || 
-                    store.country.toLowerCase().includes(searchTerm) ||
-                    store.productsSold.some(p => p.toLowerCase().includes(searchTerm))
-                );
+            function filterAndRenderStores() {
+                const searchTerm = storeSearch.value.toLowerCase();
+                const storeType = storeTypeFilter.value;
+
+                const filtered = storesData.filter(store => {
+                    const searchMatch = store.name.toLowerCase().includes(searchTerm) || 
+                                        store.country.toLowerCase().includes(searchTerm) ||
+                                        store.productsSold.some(p => p.toLowerCase().includes(searchTerm));
+                    const typeMatch = (storeType === 'all' || store.type === storeType);
+                    return searchMatch && typeMatch;
+                });
                 renderStores(filtered);
-            });
-            renderStores(storesData);
+            }
+
+            storeSearch.addEventListener('input', filterAndRenderStores);
+            storeTypeFilter.addEventListener('change', filterAndRenderStores); // New event listener
+            filterAndRenderStores(); // Initial render for stores
+
 
             // Event listener for store list clicks
             storeList.addEventListener('click', (e) => {
@@ -1468,6 +1668,14 @@
                     <img src="${url}" alt="${store.name}" onerror="this.onerror=null;this.src='https://placehold.co/250x180/CCCCCC/333333?text=No+Store+Image';" />
                 `).join('');
 
+                // Conditionally display sales volume or store age
+                let salesOrAgeHtml = '';
+                if (store.type === 'chain') {
+                    salesOrAgeHtml = `<li class="flex justify-between"><strong>میزان فروش سالانه:</strong> <span>${parseFloat(store.salesVolume).toLocaleString()}$</span></li>`;
+                } else if (store.type === 'retail') {
+                    salesOrAgeHtml = `<li class="flex justify-between"><strong>قدمت فروشگاه:</strong> <span>${store.storeAge}</span></li>`;
+                }
+
                 storeModalBody.innerHTML = `
                     <div class="flex flex-col items-center mb-4">
                         <div class="image-album w-full mb-4">
@@ -1476,8 +1684,9 @@
                     </div>
                     <ul class="space-y-3 text-gray-800">
                         <li class="flex justify-between"><strong>کشور:</strong> <span>${store.country}</span></li>
+                        <li class="flex justify-between"><strong>نوع فروشگاه:</strong> <span>${store.type === 'chain' ? 'فروشگاه بزرگ زنجیره‌ای' : 'فروشگاه خرده‌فروشی'}</span></li>
                         <li class="flex justify-between"><strong>موقعیت جغرافیایی:</strong> <span>${store.location}</span></li>
-                        <li class="flex justify-between"><strong>میزان فروش سالانه:</strong> <span>${parseFloat(store.salesVolume).toLocaleString()}$</span></li>
+                        ${salesOrAgeHtml}
                         <li class="flex justify-between"><strong>مساحت:</strong> <span>${store.areaSqM} متر مربع</span></li>
                         <li class="flex justify-between"><strong>طول:</strong> <span>${store.length} متر</span></li> 
                         <li class="flex justify-between"><strong>عرض:</strong> <span>${store.width} متر</span></li>  
@@ -1493,6 +1702,7 @@
                                 ${store.website !== '#' ? `<a href="${store.website}" target="_blank" rel="noopener noreferrer" class="text-[#34658F] hover:underline">${store.website}</a>` : 'ندارد'}
                             </span>
                         </li>
+                        ${store.specialNotes ? `<li class="mt-4"><strong>نکات ویژه:</strong> <span>${store.specialNotes}</span></li>` : ''}
                     </ul>
                 `;
                 storeDetailModal.classList.remove('hidden');
@@ -1620,7 +1830,8 @@
                 if (searchTerm) {
                     filteredProducts = filteredProducts.filter(p => 
                         p.name.toLowerCase().includes(searchTerm) || 
-                        p.country.toLowerCase().includes(searchTerm)
+                        p.country.toLowerCase().includes(searchTerm) ||
+                        (p.secondCountry && p.secondCountry.toLowerCase().includes(searchTerm)) // Check second country too
                     );
                 }
 
