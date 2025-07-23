@@ -75,6 +75,56 @@
             border-radius: 0.5rem;
             box-shadow: 0 2px 5px rgba(0,0,0,0.2);
         }
+
+        /* Styles for the new image viewer modal */
+        .image-viewer-modal-content {
+            background-color: #1a1a1a; /* Dark background for image viewer */
+            position: relative;
+            width: 90%;
+            max-width: 900px;
+            max-height: 90vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+            border-radius: 0.75rem;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+        }
+        .image-viewer-modal-content img {
+            max-width: 100%;
+            max-height: 75vh; /* Adjust height to leave space for controls */
+            object-fit: contain;
+            border-radius: 0.5rem;
+        }
+        .image-viewer-controls {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            margin-top: 1rem;
+        }
+        .image-viewer-controls button {
+            background-color: rgba(255, 255, 255, 0.2);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
+        .image-viewer-controls button:hover {
+            background-color: rgba(255, 255, 255, 0.4);
+        }
+        .image-viewer-close-btn {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            color: white;
+            font-size: 2rem;
+            cursor: pointer;
+            background: none;
+            border: none;
+            z-index: 10;
+        }
     </style>
 </head>
 <body class="bg-[#FDFBF7]">
@@ -330,6 +380,18 @@
                 <button id="close-tourist-modal" class="text-gray-500 hover:text-red-600 text-3xl">&times;</button>
             </div>
             <div id="tourist-modal-body" class="p-6">
+            </div>
+        </div>
+    </div>
+
+    <!-- New Image Viewer Modal -->
+    <div id="image-viewer-modal" class="modal fixed inset-0 bg-black bg-opacity-80 z-[60] flex items-center justify-center p-4 hidden opacity-0">
+        <div id="image-viewer-modal-content" class="image-viewer-modal-content">
+            <button id="close-image-viewer" class="image-viewer-close-btn">&times;</button>
+            <img id="current-image" src="" alt="Full size image" class="max-w-full max-h-[75vh] object-contain rounded-lg shadow-lg">
+            <div class="image-viewer-controls">
+                <button id="prev-image">قبلی</button>
+                <button id="next-image">بعدی</button>
             </div>
         </div>
     </div>
@@ -660,36 +722,6 @@
                 annualSalesRevenueUSD: 3850000,
                 annualProductionUnitsSecondCountry: 6000, // New field
                 annualSalesRevenueUSDSecondCountry: 330000 // New field
-            },
-            {
-                id: 11,
-                name: "فانوس مراکشی",
-                englishName: "Moroccan Lantern",
-                country: "مراکش",
-                secondCountry: "تونس", // New field
-                minPriceUSD: 30, // New field
-                maxPriceUSD: 60, // New field
-                origin: "فاس، مراکش",
-                story: "فانوس‌های مراکشی ریشه‌های عمیقی در معماری اسلامی و فرهنگ عربی دارند. آنها نه تنها منبع نور، بلکه نمادی از مهمان‌نوازی و زیبایی‌های شرق هستند.",
-                description: "فانوس‌های دست‌ساز از فلز و شیشه‌های رنگی که نور را به زیبایی منعکس می‌کنند. بسیار محبوب برای تزئین منزل و ایجاد فضایی گرم و شرقی.",
-                avgPriceUSD: 45,
-                localPrice: "400 MAD",
-                category: ["دکوری", "صنایع دستی", "هنری"],
-                audience: ["بزرگسالان", "علاقه‌مندان به هنر", "گردشگران"],
-                materials: "آهن، مس، شیشه رنگی",
-                usage: "روشنایی، دکوراسیون، هدیه",
-                culturalValue: 8,
-                economicValue: 6,
-                // Updated to imageUrls array
-                imageUrls: [
-                    "images/Lantern-1.jpg",
-                    "images/Lantern-2.PNG",
-                    "images/Lantern-3.PNG"
-                ],
-                annualProductionUnits: 60000,
-                annualSalesRevenueUSD: 2700000,
-                annualProductionUnitsSecondCountry: 5000, // New field
-                annualSalesRevenueUSDSecondCountry: 225000 // New field
             },
             // You can add more product objects here by copying and pasting the structure above.
         ].map(p => ({
@@ -1293,6 +1325,71 @@
             const touristModalContent = document.getElementById('tourist-modal-content'); 
             const closeTouristModalBtn = document.getElementById('close-tourist-modal'); 
 
+            // New image viewer elements
+            const imageViewerModal = document.getElementById('image-viewer-modal');
+            const currentImage = document.getElementById('current-image');
+            const prevImageBtn = document.getElementById('prev-image');
+            const nextImageBtn = document.getElementById('next-image');
+            const closeImageViewerBtn = document.getElementById('close-image-viewer');
+
+            let currentImageUrls = []; // Stores the array of images for the current gallery
+            let currentImageIndex = 0; // Stores the index of the currently displayed image
+
+            // Function to open the image viewer modal
+            function openImageViewer(imageUrls, startIndex) {
+                currentImageUrls = imageUrls;
+                currentImageIndex = startIndex;
+                currentImage.src = currentImageUrls[currentImageIndex];
+                imageViewerModal.classList.remove('hidden');
+                setTimeout(() => {
+                    imageViewerModal.classList.remove('opacity-0');
+                }, 10);
+                updateImageViewerControls();
+            }
+
+            // Function to close the image viewer modal
+            function closeImageViewer() {
+                imageViewerModal.classList.add('opacity-0');
+                setTimeout(() => {
+                    imageViewerModal.classList.add('hidden');
+                }, 300);
+            }
+
+            // Update image and button states in the viewer
+            function updateImageViewerControls() {
+                currentImage.src = currentImageUrls[currentImageIndex];
+                prevImageBtn.disabled = currentImageIndex === 0;
+                nextImageBtn.disabled = currentImageIndex === currentImageUrls.length - 1;
+                // Add Tailwind classes for disabled state
+                prevImageBtn.classList.toggle('opacity-50', prevImageBtn.disabled);
+                prevImageBtn.classList.toggle('cursor-not-allowed', prevImageBtn.disabled);
+                nextImageBtn.classList.toggle('opacity-50', nextImageBtn.disabled);
+                nextImageBtn.classList.toggle('cursor-not-allowed', nextImageBtn.disabled);
+            }
+
+            // Event listeners for image viewer navigation
+            prevImageBtn.addEventListener('click', () => {
+                if (currentImageIndex > 0) {
+                    currentImageIndex--;
+                    updateImageViewerControls();
+                }
+            });
+
+            nextImageBtn.addEventListener('click', () => {
+                if (currentImageIndex < currentImageUrls.length - 1) {
+                    currentImageIndex++;
+                    updateImageViewerControls();
+                }
+            });
+
+            closeImageViewerBtn.addEventListener('click', closeImageViewer);
+            imageViewerModal.addEventListener('click', (e) => {
+                if (e.target === imageViewerModal) {
+                    closeImageViewer();
+                }
+            });
+
+
             // Ensure consolidatedCountriesInfo uses only the baseCountriesInfo
             // Moved inside DOMContentLoaded to avoid re-declaration error
             const consolidatedCountriesInfo = baseCountriesInfo.map(c => ({
@@ -1421,16 +1518,16 @@
                     `;
                 }
 
-                // Image Album for Product Modal
-                const imageAlbumHtml = product.imageUrls.map(url => `
-                    <img src="${url}" alt="${product.name}" onerror="this.onerror=null;this.src='https://placehold.co/250x180/CCCCCC/333333?text=No+Image';" />
+                // Image Album for Product Modal - Added data-index and click listener
+                const imageAlbumHtml = product.imageUrls.map((url, index) => `
+                    <img src="${url}" alt="${product.name}" data-index="${index}" class="cursor-pointer" onerror="this.onerror=null;this.src='https://placehold.co/250x180/CCCCCC/333333?text=No+Image';">
                 `).join('');
 
 
                 modalBody.innerHTML = `
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div class="flex flex-col items-center">
-                            <div class="image-album w-full mb-4">
+                            <div class="image-album w-full mb-4" id="product-image-album">
                                 ${imageAlbumHtml}
                             </div>
                             <h4 class="font-bold text-lg mt-2 mb-2 text-[#4F80B9]">داستان محصول</h4>
@@ -1465,6 +1562,13 @@
                 setTimeout(() => {
                     productModal.classList.remove('opacity-0');
                     productModalContent.classList.remove('scale-95');
+                    // Add event listener for images in the product modal's album
+                    document.getElementById('product-image-album').addEventListener('click', (e) => {
+                        if (e.target.tagName === 'IMG') {
+                            const index = parseInt(e.target.dataset.index);
+                            openImageViewer(product.imageUrls, index);
+                        }
+                    });
                 }, 10);
             }
 
@@ -1693,9 +1797,9 @@
                 document.getElementById('store-modal-title').textContent = store.name;
                 const storeModalBody = document.getElementById('store-modal-body');
 
-                // Image Album for Store Modal
-                const imageAlbumHtml = store.imageUrls.map(url => `
-                    <img src="${url}" alt="${store.name}" onerror="this.onerror=null;this.src='https://placehold.co/250x180/CCCCCC/333333?text=No+Store+Image';" />
+                // Image Album for Store Modal - Added data-index and click listener
+                const imageAlbumHtml = store.imageUrls.map((url, index) => `
+                    <img src="${url}" alt="${store.name}" data-index="${index}" class="cursor-pointer" onerror="this.onerror=null;this.src='https://placehold.co/250x180/CCCCCC/333333?text=No+Store+Image';" />
                 `).join('');
 
                 // Conditionally display sales volume or store age
@@ -1708,7 +1812,7 @@
 
                 storeModalBody.innerHTML = `
                     <div class="flex flex-col items-center mb-4">
-                        <div class="image-album w-full mb-4">
+                        <div class="image-album w-full mb-4" id="store-image-album">
                             ${imageAlbumHtml}
                         </div>
                     </div>
@@ -1739,6 +1843,13 @@
                 setTimeout(() => {
                     storeDetailModal.classList.remove('opacity-0');
                     storeModalContent.classList.add('scale-95');
+                    // Add event listener for images in the store modal's album
+                    document.getElementById('store-image-album').addEventListener('click', (e) => {
+                        if (e.target.tagName === 'IMG') {
+                            const index = parseInt(e.target.dataset.index);
+                            openImageViewer(store.imageUrls, index);
+                        }
+                    });
                 }, 10);
             }
 
